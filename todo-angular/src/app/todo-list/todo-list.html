@@ -1,14 +1,99 @@
-<h2>Todo-List :</h2>
+<div class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+  <div class="w-full max-w-xl bg-white rounded-xl shadow-lg p-6">
 
+    <!-- Titre -->
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+      📝 TodoList Angular
+    </h1>
 
-<input [(ngModel)]="NewTask" type="text" placeholder="Nouvelle-Tache :">
-<buttton (click)="addTask()">Ajouter</buttton>
+    <!-- Formulaire -->
+    <div class="space-y-3 mb-6">
+      <input
+        type="text"
+        placeholder="Titre de la tâche"
+        [(ngModel)]="title"
+        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
 
-<ul>
-    @for(task of tasks, track $index){
-        <li>
-             {{ task }}
-            <button (click) ="deleteTask($index)">Supprimer</button>
+      <input
+        type="text"
+        placeholder="Auteur"
+        [(ngModel)]="author"
+        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+
+      <input
+        type="text"
+        placeholder="Tags (ex: angular,frontend)"
+        [(ngModel)]="tags"
+        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+
+      <button
+        (click)="addTask()"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
+      >
+        ➕ Ajouter la tâche
+      </button>
+    </div>
+
+    <!-- Liste -->
+    <ul class="space-y-3">
+      @for (task of tasks; track task.id) {
+        <li
+          class="flex items-start justify-between p-4 rounded-lg border"
+          [ngClass]="{
+            'bg-green-50 border-green-300': task.completed,
+            'bg-gray-50': !task.completed
+          }"
+        >
+          <div class="flex gap-3">
+            <input
+              type="checkbox"
+              [checked]="task.completed"
+              (change)="toggleCompleted(task)"
+              class="mt-1"
+            />
+
+            <div>
+              <p
+                class="font-semibold"
+                [class.line-through]="task.completed"
+                [class.text-gray-400]="task.completed"
+              >
+                {{ task.title }}
+              </p>
+
+              <p class="text-sm text-gray-500">
+                par {{ task.author }}
+              </p>
+
+              <div class="flex gap-2 mt-2">
+                @for (tag of task.tags; track $index) {
+                  <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">
+                    #{{ tag }}
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+
+          <button
+            (click)="deleteTask(task.id)"
+            class="text-red-500 hover:text-red-700 font-semibold"
+          >
+            ✖
+          </button>
         </li>
-    }    
-</ul>
+      }
+    </ul>
+
+    <!-- Empty state -->
+    @if (tasks.length === 0) {
+      <p class="text-center text-gray-400 mt-6">
+        Aucune tâche pour le moment
+      </p>
+    }
+
+  </div>
+</div>
