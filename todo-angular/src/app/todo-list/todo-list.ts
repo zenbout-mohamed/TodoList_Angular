@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 interface Task {
@@ -10,14 +11,12 @@ interface Task {
 }
 
 @Component({
-  selector: 'app-todo-list',
+  selector: 'app-todo',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './todo-list.html',
-  styleUrl: './todo-list.css'
 })
-export class TodoListComponent {
-
+export class TodoComponent {
   tasks: Task[] = [];
   nextId = 1;
 
@@ -34,8 +33,8 @@ export class TodoListComponent {
       author: this.author.trim(),
       completed: false,
       tags: this.tags
-        ? this.tags.split(',').map(t => t.trim())
-        : []
+        ? this.tags.split(',').map(tag => tag.trim())
+        : [],
     });
 
     this.title = '';
@@ -44,10 +43,10 @@ export class TodoListComponent {
   }
 
   deleteTask(id: number) {
-    this.tasks = this.tasks.filter(t => t.id !== id);
+    this.tasks = this.tasks.filter(task => task.id !== id);
   }
 
-  toggleTask(task: Task) {
+  toggleCompleted(task: Task) {
     task.completed = !task.completed;
   }
 }
