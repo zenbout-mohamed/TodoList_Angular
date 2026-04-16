@@ -1,5 +1,16 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+
+interface Task {
+  id: number;
+  title: string;
+  author: string;
+  completed: boolean;
+  tags: string[];
+}
+
+
 @Component({
   selector: 'app-todo-list',
   standalone: true,
